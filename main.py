@@ -1,5 +1,9 @@
 import discord
 from discord.ext import commands
+import os
+import dotenv
+
+dotenv.load_dotenv()
 
 intents = discord.Intents.default()
 intents.guilds = True
@@ -10,7 +14,7 @@ intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # === 設定項目 ===
-TOKEN = 'MTM4MjIyOTMyMjU5MjY4MjAxNA.GeGUS7.1FIiKC4M_GEvylAGtORWUputP8hgwmfkx26ZZY'
+TOKEN = os.environ.get("TOKEN")
 SELF_INTRO_CHANNEL_ID = 1390572701462171658
 LOG_CHANNEL_ID = 1390572992601526282
 GUEST_ROLE_NAME = "guest"
@@ -76,4 +80,5 @@ async def on_message(message: discord.Message):
     await bot.process_commands(message)
 
 # bot起動
-bot.run("MTM4MjIyOTMyMjU5MjY4MjAxNA.GeGUS7.1FIiKC4M_GEvylAGtORWUputP8hgwmfkx26ZZY")
+
+bot.run(TOKEN)
