@@ -1,7 +1,5 @@
 From python:3.11.5
-
-
-WORKDIR /app
+WORKDIR /bot
 
 RUN apt-get -y update && apt-get -y install locales && apt-get -y upgrade && \
     localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
