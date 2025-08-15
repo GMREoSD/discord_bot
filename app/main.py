@@ -3,6 +3,8 @@ from discord.ext import commands
 import os
 import dotenv
 
+from server import server_thread
+
 dotenv.load_dotenv()
 
 intents = discord.Intents.default()
@@ -79,6 +81,8 @@ async def on_message(message: discord.Message):
 
     await bot.process_commands(message)
 
+# Koyeb用 サーバー立ち上げ
+server_thread()
 # bot起動
-
 bot.run(TOKEN)
+
