@@ -31,13 +31,13 @@ TOKEN = os.environ.get("TOKEN")
 # サーバーごとの設定
 SETTINGS = {
     348814267782397964: {  # サーバーAのID
-        "intro_channel": 222222222222222222,  # 自己紹介チャンネルID
+        "intro_channel": 2354625793844051970,  # 自己紹介チャンネルID
         "log_channel": 333333333333333333,    # ログチャンネルID
-        "guest_role": "guest",
+        "guest_role": "Guest",
         "user_role": "user"
     },
-    853160152647598100: {  # サーバーBのID
-        "intro_channel": 1390572701462171658,
+    1163380402950516856: {  # サーバーBのID
+        "intro_channel": 1163380403554500647,
         "log_channel": 1390572992601526282,
         "guest_role": "guest",
         "user_role": "user"
