@@ -32,7 +32,7 @@ TOKEN = os.environ.get("TOKEN")
 SETTINGS = {
     348814267782397964: {  # サーバーAのID
         "intro_channel": 2354625793844051970,  # 自己紹介チャンネルID
-        "log_channel": 333333333333333333,    # ログチャンネルID
+        "log_channel": 1406653580718379018,    # ログチャンネルID
         "guest_role": "Guest",
         "user_role": "user"
     },
