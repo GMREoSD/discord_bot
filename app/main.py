@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 import dotenv
+import difflib
 
 from server import server_thread
 
@@ -14,6 +15,14 @@ intents.members = True
 
 # テキストチャンネル上でのコマンドは文頭「!」のものとする。intentsはさっき指定した通りのヤツだ
 bot = commands.Bot(command_prefix="!", intents=intents)
+
+# ---- 曖昧一致ロール検索関数 ----
+def find_role_fuzzy(guild, role_name):
+    role_names = [role.name for role in guild.roles]
+    matches = difflib.get_close_matches(role_name, role_names, n=1, cutoff=0.6)
+    if matches:
+        return discord.utils.get(guild.roles, name=matches[0])
+    return None
 
 # === 設定項目 ===
 TOKEN = os.environ.get("TOKEN")
@@ -28,9 +37,11 @@ async def on_ready():
 
 @bot.event
 async def on_message(message: discord.Message):
+    # Bot自身のメッセージは無視
     if message.author.bot:
         return
 
+    # 自己紹介チャンネル以外は無視
     if message.channel.id != SELF_INTRO_CHANNEL_ID:
         return
 
@@ -39,7 +50,7 @@ async def on_message(message: discord.Message):
     content = message.content
     log_channel = guild.get_channel(LOG_CHANNEL_ID)
 
-    # --- ユーザーロール付与 ---
+    # --- userロール付与 ---
     if "HN" in content:
         guest_role = discord.utils.get(guild.roles, name=GUEST_ROLE_NAME)
         user_role = discord.utils.get(guild.roles, name=USER_ROLE_NAME)
@@ -53,31 +64,24 @@ async def on_message(message: discord.Message):
                 await log_channel.send(f"✅ {member.display_name} に `{USER_ROLE_NAME}` ロールを付与しました！")
 
     # --- 所属ロール付与 ---
-    assigned = False
-    if "所属" in content:
-        for line in content.splitlines():
+    if "所属" in message.content:
+        for line in message.content.splitlines():
             if "所属" in line:
-                # 「：」または「:」で分割
-                if "：" in line:
-                    parts = line.split("：", 1)
-                elif ":" in line:
-                    parts = line.split(":", 1)
+                # 「所属」行から : または ： の後の文字を取り出す
+                if ":" in line:
+                    role_name = line.split(":", 1)[1].strip()
+                elif "：" in line:
+                    role_name = line.split("：", 1)[1].strip()
                 else:
-                    continue
+                    role_name = None
 
-                if len(parts) == 2:
-                    raw_name = parts[1].strip()
-                    if not raw_name:
-                        continue
-                    role = discord.utils.get(guild.roles, name=raw_name)
+                if role_name:
+                    role = find_role_fuzzy(message.guild, role_name)
                     if role:
-                        await member.add_roles(role)
-                        assigned = True
-                        if log_channel:
-                            await log_channel.send(f"✅ {member.display_name} に `{role.name}` ロールを付与しました！")
-                        break
-        if not assigned and log_channel:
-            await log_channel.send(f"⚠️ {member.display_name} に所属ロールを付与できませんでした")
+                        await message.author.add_roles(role)
+                        await log_channel.send(f"{message.author.name} に {role.name} ロールを付与しました！")
+                    else:
+                        await log_channel.send(f"{message.author.name} に所属ロールを付与できませんでした。")
 
     await bot.process_commands(message)
 
