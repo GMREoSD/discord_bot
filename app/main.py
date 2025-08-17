@@ -88,8 +88,8 @@ async def on_message(message: discord.Message):
 
     log_channel = guild.get_channel(settings["log_channel"])
 
-    # 「自己紹介」が含まれる → guest外してuser付与
-    if "自己紹介" in message.content:
+    # 「HN」が含まれる → guest外してuser付与
+    if "HN" in message.content:
         user_role = discord.utils.get(guild.roles, name=settings["user_role"])
         guest_role = discord.utils.get(guild.roles, name=settings["guest_role"])
 
