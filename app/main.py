@@ -65,17 +65,16 @@ def find_best_role(guild, target_name):
     return None
 
 @bot.event
-async def on_ready():
-    print(f"✅ Bot {bot.user} がログインしました！")
-
-@bot.event
 async def on_message(message: discord.Message):
     # Bot自身のメッセージは無視
     if message.author.bot:
         return
 
+    print(f"受信: {message.content} (guild: {message.guild.id}, channel: {message.channel.id})")
+
     guild = message.guild
     if guild is None:
+        print("⚠ このサーバーの設定は辞書にない")
         return
 
     settings = SETTINGS.get(guild.id)
