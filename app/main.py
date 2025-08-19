@@ -70,12 +70,9 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    print(f"受信: {message.content} (guild: {message.guild.id}, channel: {message.channel.id})")
-
     guild = message.guild
     if guild is None:
-        print("⚠ このサーバーの設定は辞書にない")
-        return
+       return
 
     settings = SETTINGS.get(guild.id)
     if not settings:
