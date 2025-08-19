@@ -30,14 +30,14 @@ TOKEN = os.environ.get("TOKEN")
 
 # サーバーごとの設定
 SETTINGS = {
-    348814267782397964: {  # サーバーAのID
+    348814267782397964: {  # 大学東方のアレのID
         "intro_channel": 354625793844051970,  # 自己紹介チャンネルID
         "log_channel": 1406653580718379018,    # ログチャンネルID
         "guest_role": "Guest",
         "user_role": "user"
     },
-    1163380402950516856: {  # サーバーBのID
-        "intro_channel": 1163380403554500647,
+    853160152647598100: {  # 魔導書の実験室のID
+        "intro_channel": 1390572701462171658,
         "log_channel": 1390572992601526282,
         "guest_role": "guest",
         "user_role": "user"
