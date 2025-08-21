@@ -75,18 +75,6 @@ async def on_message(message: discord.Message):
     guild = message.guild
     settings = SETTINGS.get(guild.id)
 
-    # デバッグ出力
-    print("========== DEBUG START ==========")
-    print(f"[DEBUG] guild={guild.name} ({guild.id})")
-    print(f"[DEBUG] channel={message.channel.name} ({message.channel.id})")
-    print(f"[DEBUG] message={message.content}")
-    print(f"[DEBUG] settings={settings}")
-    if settings:
-        print(f"[DEBUG] user_role設定={settings['user_role']}")
-        print(f"[DEBUG] guest_role設定={settings['guest_role']}")
-    print(f"[DEBUG] available_roles={[role.name for role in guild.roles]}")
-    print("========== DEBUG END ==========")
-
     # 設定がなければ無視
     if not settings:
         return
