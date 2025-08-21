@@ -64,12 +64,33 @@ def find_best_role(guild, target_name):
         return discord.utils.get(guild.roles, name=best_match[0])
     return None
 
+
 @bot.event
 async def on_message(message: discord.Message):
     # Bot自身のメッセージは無視
     if message.author.bot:
         return
 
+    # ここでギルド情報を取る
+    guild = message.guild
+    settings = SETTINGS.get(guild.id)
+
+    # デバッグ出力
+    print("========== DEBUG START ==========")
+    print(f"[DEBUG] guild={guild.name} ({guild.id})")
+    print(f"[DEBUG] channel={message.channel.name} ({message.channel.id})")
+    print(f"[DEBUG] message={message.content}")
+    print(f"[DEBUG] settings={settings}")
+    if settings:
+        print(f"[DEBUG] user_role設定={settings['user_role']}")
+        print(f"[DEBUG] guest_role設定={settings['guest_role']}")
+    print(f"[DEBUG] available_roles={[role.name for role in guild.roles]}")
+    print("========== DEBUG END ==========")
+
+    # 設定がなければ無視
+    if not settings:
+        return
+    
     guild = message.guild
     if guild is None:
        return
