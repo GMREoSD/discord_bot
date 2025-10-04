@@ -51,7 +51,7 @@ def extract_circle_name(message: str):
     """所属サークル名を抽出"""
     for line in message.splitlines():
         if "所属" in line:
-            parts = re.split(r"[:：]", line, maxsplit=1)
+            parts = re.split(r"[:：,、]", line, maxsplit=1)
             if len(parts) > 1:
                 return parts[1].strip()
     return None
