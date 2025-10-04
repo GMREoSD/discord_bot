@@ -54,6 +54,7 @@ def extract_circle_name(message: str):
     for line in message.splitlines():
         if "所属" in line:
             parts = re.split(r"[:：]", line, maxsplit=1)
+            # N_of_circle = len(parts.rsplit(r"[,、]", line,))
             if len(parts) > 1:
                 return parts[1].strip()
     return None
