@@ -25,7 +25,7 @@ def find_role_fuzzy(guild, role_name):
         return discord.utils.get(guild.roles, name=matches[0])
     return None
 
-
+ # botのTOKENを環境変数から取得する。(Koeyb側で設定)
 TOKEN = os.environ.get("TOKEN")
 
 # サーバーごとの設定
@@ -43,6 +43,8 @@ SETTINGS = {
         "user_role": "user"
     }
 }
+
+ # botを起動する
 @bot.event
 async def on_ready():
     print(f"[起動] Bot {bot.user} がログインしました")
